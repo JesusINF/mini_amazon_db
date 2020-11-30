@@ -16,6 +16,42 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bitacora`
+--
+
+DROP TABLE IF EXISTS `bitacora`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bitacora` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idCARRITOS` smallint unsigned DEFAULT NULL,
+  `cantidad` tinyint unsigned DEFAULT NULL,
+  `total` decimal(9,2) unsigned DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
+  `idPRODUCTOS` smallint unsigned DEFAULT NULL,
+  `precio` decimal(7,2) unsigned DEFAULT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
+  `especificaciones` varchar(255) DEFAULT NULL,
+  `marca` varchar(40) DEFAULT NULL,
+  `numero_fabricante` varchar(15) DEFAULT NULL,
+  `usuario` varchar(30) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `accion` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bitacora`
+--
+
+LOCK TABLES `bitacora` WRITE;
+/*!40000 ALTER TABLE `bitacora` DISABLE KEYS */;
+INSERT INTO `bitacora` VALUES (1,NULL,NULL,NULL,NULL,7,16999.99,'Laptop Omen','Intel i7 9na generación, GTX 1650','HP','181250652002402','Pita@DESKTOP-4B1HOAG','2020-11-29 19:08:16','Insertó');
+/*!40000 ALTER TABLE `bitacora` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `carritos`
 --
 
@@ -40,6 +76,54 @@ LOCK TABLES `carritos` WRITE;
 INSERT INTO `carritos` VALUES (1,5,1760.00,'2020-10-21 22:53:19'),(2,3,5997.00,'2020-10-21 22:53:19'),(3,4,13596.00,'2020-10-21 22:53:19'),(4,8,7192.00,'2020-10-21 22:53:19'),(5,6,11916.00,'2020-10-21 22:53:19');
 /*!40000 ALTER TABLE `carritos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`Pita`@`%`*/ /*!50003 TRIGGER `insertarCarritos` AFTER INSERT ON `carritos` FOR EACH ROW INSERT INTO Bitacora (idCARRITOS, cantidad, total, fecha_hora, usuario, fecha, accion)
+VALUES(new.idCARRITOS, new.cantidad, new.total, new.fecha_hora, user(), now(), 'Insertó') */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`Pita`@`%`*/ /*!50003 TRIGGER `actualizarCarritos` BEFORE UPDATE ON `carritos` FOR EACH ROW INSERT INTO Bitacora (idCARRITOS, cantidad, total, fecha_hora, usuario, fecha, accion)
+VALUES(old.idCARRITOS, old.cantidad, old.total, old.fecha_hora, user(), now(), 'Actualizó') */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`Pita`@`%`*/ /*!50003 TRIGGER `borrarCarritos` BEFORE DELETE ON `carritos` FOR EACH ROW INSERT INTO Bitacora (idCARRITOS, cantidad, total, fecha_hora, usuario, fecha, accion)
+VALUES(old.idCARRITOS, old.cantidad, old.total, old.fecha_hora, user(), now(), 'Borró') */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `envios`
@@ -177,7 +261,7 @@ CREATE TABLE `productos` (
   UNIQUE KEY `numero_fabricante_UNIQUE` (`numero_fabricante`),
   FULLTEXT KEY `descripcion` (`descripcion`) /*!80000 INVISIBLE */,
   FULLTEXT KEY `especificaciones` (`especificaciones`) /*!80000 INVISIBLE */
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,9 +270,57 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,352.00,'Photomax: camara fotográfica.','La cámara que te hará volar tus sesos con su increíble lente de 1080p * 720p a un precio increíble, con memoria incluida.','Photosplus','181250652002408'),(2,1999.00,'Monitor Gamer Full HD','21 pulgadas, 60Hz, Full HD','Vorago','254890653521478'),(3,3399.00,'Procesador Ryzen 3400G.','6 nucleos, 5ta generación de AMD Ryzen, 6GB de memoria, Radeon VirusFX Graphics incluida.','AMD','378525146452314'),(4,899.00,'Memoria RAM Xpg','Memoria DDR4, 8GB de RAM, 2666Mhz.','ADATA','179863154278956'),(5,1986.00,'HyperX Alloy FPS','Teclado tipo mecánico, con teclas CherryMX Red, con 10millones de clics por tecla de garantía, retroiluminado.','Kingston','756892348567125');
+INSERT INTO `productos` VALUES (1,352.00,'Photomax: camara fotográfica.','La cámara que te hará volar tus sesos con su increíble lente de 1080p * 720p a un precio increíble, con memoria incluida.','Photosplus','181250652002408'),(2,1999.00,'Monitor Gamer Full HD','21 pulgadas, 60Hz, Full HD','Vorago','254890653521478'),(3,3399.00,'Procesador Ryzen 3400G.','6 nucleos, 5ta generación de AMD Ryzen, 6GB de memoria, Radeon VirusFX Graphics incluida.','AMD','378525146452314'),(4,899.00,'Memoria RAM Xpg','Memoria DDR4, 8GB de RAM, 2666Mhz.','ADATA','179863154278956'),(5,1986.00,'HyperX Alloy FPS','Teclado tipo mecánico, con teclas CherryMX Red, con 10millones de clics por tecla de garantía, retroiluminado.','Kingston','756892348567125'),(7,16999.99,'Laptop Omen','Intel i7 9na generación, GTX 1650','HP','181250652002402');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`Pita`@`%`*/ /*!50003 TRIGGER `insertarProductos` AFTER INSERT ON `productos` FOR EACH ROW INSERT INTO Bitacora (idPRODUCTOS, precio, descripcion, especificaciones, marca, numero_fabricante, usuario,fecha,accion)
+VALUES(new.idPRODUCTOS, new.precio, new.descripcion, new.especificaciones, new.marca, new.numero_fabricante, user(), now(), 'Insertó') */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`Pita`@`%`*/ /*!50003 TRIGGER `actualizarProductos` BEFORE UPDATE ON `productos` FOR EACH ROW INSERT INTO Bitacora (idPRODUCTOS, precio, descripcion, especificaciones, marca, numero_fabricante, usuario,fecha,accion)
+VALUES(old.idPRODUCTOS, old.precio, old.descripcion, old.especificaciones, old.marca, old.numero_fabricante, user(), now(), 'Actualizó') */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`Pita`@`%`*/ /*!50003 TRIGGER `borrarProductos` BEFORE DELETE ON `productos` FOR EACH ROW INSERT INTO Bitacora (idPRODUCTOS, precio, descripcion, especificaciones, marca, numero_fabricante, usuario,fecha,accion)
+VALUES(old.idPRODUCTOS, old.precio, old.descripcion, old.especificaciones, old.marca, old.numero_fabricante, user(), now(), 'Borró') */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `productossinstock`
@@ -348,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-29 14:15:31
+-- Dump completed on 2020-11-29 20:26:20
